@@ -2,10 +2,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { HeadersComponent } from '../HeaderComponent';
+import  HeaderComponent  from '../HeaderComponent';
 import { CategoryCard } from './CategoryCard';
 import ImageSlider from './ImageSlider';
-import { fetchCategories, fetchProductsByCatID, fetchProductByFeature } from '';
+import { fetchCategories, fetchProductsByCatID } from '../Middleware/HomeMiddleware';
 import { TabsStackScreenProps } from '../Navigation/TabsNavigation';
 import { ProductListParams } from '../TypesCheck/HomeProps';
 
@@ -22,17 +22,17 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
     const [getProductsByFeature, setGetProductsByFeature] = useState<ProductListParams[]>([]);
     const [isViewVisible, setIsViewVisible] = useState<boolean>(true);
 
-    useEffect(() => {
-        fetchCategories({ setGetCategory });
-        fetchProductByFeature({ setGetProductsByFeature });
-    }, []);
+    // useEffect(() => {
+    //     fetchCategories({ setGetCategory });
+    //     fetchProductByFeature({ setGetProductsByFeature });
+    // }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            fetchCategories({ setGetCategory });
-            fetchProductByFeature({ setGetProductsByFeature });
-        }, [])
-    );
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         fetchCategories({ setGetCategory });
+    //         fetchProductByFeature({ setGetProductsByFeature });
+    //     }, [])
+    // );
 
     useEffect(() => {
         if (activeCat) {
@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
         <TouchableWithoutFeedback onPress={handleOutsideClick}>
             <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 0 : 0, flex: 1, backgroundColor: "black" }}>
                 <ScrollView>
-                    <HeadersComponent gotoCartScreen={gotoCartScreen} />
+                    <HeaderComponent gotoCartScreen={gotoCartScreen} />
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}
                         style={{ backgroundColor: "#efg" }}>
                         <ImageSlider images={getProductsByFeature.map(product => product.images[0])} />
