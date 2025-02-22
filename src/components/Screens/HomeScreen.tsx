@@ -5,13 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderComponent from '../HeaderComponent';
 import { CategoryCard } from './CategoryCard';
 import ImageSlider from './ImageSlider';
-import { fetchCategories, fetchProductsByCatID } from '../Middleware/HomeMiddleware';
+import { fetchCategories, fetchProductsByCatID, fetchProductByFeature } from '../Middleware/HomeMiddleware';
 import { TabsStackScreenProps } from '../Navigation/TabsNavigation';
 import { ProductListParams } from '../TypesCheck/HomeProps';
 
-type Props = {};
-
-const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
+const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
     const gotoCartScreen = () => {
         navigation.navigate("Cart");
     }
@@ -19,8 +17,8 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
     const sliderImage = [
         'https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?cs=srgb&dl=pexels-olly-842811.jpg&fm=jpg',
         'https://www.standout.co.uk/blog/wp-content/uploads/2022/04/Screenshot-85.png',
-        'https://www.ernest.ca/cdn/shop/articles/Reussir_le_style_casual_chic_homme.jpg?v=1698246829&width=2048']
-
+        'https://www.ernest.ca/cdn/shop/articles/Reussir_le_style_casual_chic_homme.jpg?v=1698246829&width=2048'
+    ];
 
     const [getCategory, setGetCategory] = useState<ProductListParams[]>([]);
     const [activeCat, setActiveCat] = useState<string>("");
@@ -56,7 +54,9 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
     );
 
     const handleOutsideClick = () => {
-        setIsViewVisible(false);
+        if (isViewVisible) {
+            setIsViewVisible(true);
+        }
     };
 
     const handleCategoryClick = (catID: string) => {
@@ -65,38 +65,41 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={handleOutsideClick}>
-            <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 0 : 0, flex: 1, backgroundColor: "black" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <TouchableWithoutFeedback onPress={handleOutsideClick}>
                 <ScrollView>
                     <HeaderComponent gotoCartScreen={gotoCartScreen} />
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}
-                        style={{ backgroundColor: "#efg" }}>
+
+                    {/* Slider Hình Ảnh */}
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ backgroundColor: "#efefef" }}>
                         <ImageSlider images={sliderImage} />
                     </ScrollView>
+
+                    {/* Danh Mục */}
                     <View style={{ backgroundColor: "yellow", flex: 1 }}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{ paddingHorizontal: 15 }}
                             style={{ marginTop: 4 }}
                         >
-                            {
-                                getCategory.map((item, index) => (
-                                    <CategoryCard
-                                        key={index}
-                                        item={{ "name": item.name, "images": item.images, _id: item._id }}
-                                        catStyleProps={{
-                                            "height": 50,
-                                            "width": 55,
-                                            "radius": 20,
-                                            "resizeMode": "contain"
-                                        }}
-                                        catProps={{
-                                            "activeCat": activeCat, "onPress": () => handleCategoryClick(item._id)
-                                        }}
-                                    />
-                                ))
-                            }
+                            {getCategory.map((item, index) => (
+                                <CategoryCard
+                                    key={index}
+                                    item={{ "name": item.name, "images": item.images, _id: item._id }}
+                                    catStyleProps={{
+                                        "height": 50,
+                                        "width": 55,
+                                        "radius": 20,
+                                        "resizeMode": "contain"
+                                    }}
+                                    catProps={{
+                                        "activeCat": activeCat, "onPress": () => handleCategoryClick(item._id)
+                                    }}
+                                />
+                            ))}
                         </ScrollView>
                     </View>
+
+                    {/* Danh Sách Sản Phẩm */}
                     {isViewVisible && (
                         <>
                             <View style={{
@@ -104,7 +107,7 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
                                 marginTop: 10
                             }}>
                                 <Text style={{ fontSize: 14, fontWeight: "bold", padding: 10 }}>
-                                    Products from Selected Category
+                                    {activeCat ? "Products from Selected Category" : "Please select a category"}
                                 </Text>
                                 <Pressable>
                                     <Text style={{ fontSize: 11, fontWeight: "bold", padding: 10 }}>
@@ -112,14 +115,15 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
                                     </Text>
                                 </Pressable>
                             </View>
+                          
                             <View style={{
                                 backgroundColor: "#fff", borderWidth: 7, borderColor: "green", flexDirection: "row",
                                 justifyContent: "space-between", alignItems: "center", flexWrap: "wrap"
                             }}>
                                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                     {
-                                        getProductsByCatID?.length > 0 ? (
-                                            getProductsByCatID.map((item, index) => (
+                                        getProductsByFeature?.length > 0 ? (
+                                            getProductsByFeature.map((item, index) => (
                                                 <CategoryCard
                                                     key={index}
                                                     item={{ "name": item.name, "images": item.images, "_id": item._id }}
@@ -130,12 +134,12 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
                                                         "resizeMode": "contain"
                                                     }}
                                                     catProps={{
-                                                        "onPress": () => Alert.alert(item.name),
+                                                        "onPress": () => Alert.alert(item.name)
                                                     }}
                                                 />
                                             ))
                                         ) : (
-                                            <Text>Không có sản phẩm nào</Text>
+                                            <Text style={{ padding: 10 }}>Không có sản phẩm nào</Text>
                                         )
                                     }
                                 </ScrollView>
@@ -143,8 +147,8 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
                         </>
                     )}
                 </ScrollView>
-            </SafeAreaView>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+        </SafeAreaView>
     );
 }
 

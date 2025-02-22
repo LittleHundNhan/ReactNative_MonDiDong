@@ -55,7 +55,7 @@ export const fetchProductsByCatID = async ({setGetProductsByCatID, catID}: IProd
 }
 export const fetchProductByFeature = async ({ setGetProductsByFeature }: IProdByFeatureProps) => {
     try {
-        const response = await axios.get("http://10.0.2.2:9000/product/getFeaturedProducts");
+        const response = await axios.get("http://10.0.2.2:9000/product/getAllProducts");
         console.log("API Response:", response.data);
 
         if (Array.isArray(response.data)) {

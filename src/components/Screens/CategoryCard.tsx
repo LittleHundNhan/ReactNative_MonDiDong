@@ -30,8 +30,7 @@ export const CategoryCard = ({ item, catProps, catStyleProps }: ICatProps) => {
                             style={sty(catStyleProps.width, catStyleProps.height, catStyleProps.radius).
                                 imgStyleProps}
                             resizeMode={catStyleProps?.resizeMode}
-                        >
-                        </Image>
+                        />
                     </View>
                     <Text style={[st.catName]}> {item?.name}</Text>
                 </Pressable>
