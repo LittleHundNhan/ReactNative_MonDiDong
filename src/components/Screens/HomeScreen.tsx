@@ -2,7 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import  HeaderComponent  from '../HeaderComponent';
+import HeaderComponent from '../HeaderComponent';
 import { CategoryCard } from './CategoryCard';
 import ImageSlider from './ImageSlider';
 import { fetchCategories, fetchProductsByCatID } from '../Middleware/HomeMiddleware';
@@ -16,23 +16,29 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
         navigation.navigate("Cart");
     }
 
+    const sliderImage = [
+        'https://images.pexels.com/photos/842811/pexels-photo-842811.jpeg?cs=srgb&dl=pexels-olly-842811.jpg&fm=jpg',
+        'https://www.standout.co.uk/blog/wp-content/uploads/2022/04/Screenshot-85.png',
+        'https://www.ernest.ca/cdn/shop/articles/Reussir_le_style_casual_chic_homme.jpg?v=1698246829&width=2048']
+
+
     const [getCategory, setGetCategory] = useState<ProductListParams[]>([]);
     const [activeCat, setActiveCat] = useState<string>("");
     const [getProductsByCatID, setGetProductsByCatID] = useState<ProductListParams[]>([]);
     const [getProductsByFeature, setGetProductsByFeature] = useState<ProductListParams[]>([]);
     const [isViewVisible, setIsViewVisible] = useState<boolean>(true);
 
-    // useEffect(() => {
-    //     fetchCategories({ setGetCategory });
-    //     fetchProductByFeature({ setGetProductsByFeature });
-    // }, []);
+    useEffect(() => {
+        fetchCategories({ setGetCategory });
+        fetchProductByFeature({ setGetProductsByFeature });
+    }, []);
 
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         fetchCategories({ setGetCategory });
-    //         fetchProductByFeature({ setGetProductsByFeature });
-    //     }, [])
-    // );
+    useFocusEffect(
+        useCallback(() => {
+            fetchCategories({ setGetCategory });
+            fetchProductByFeature({ setGetProductsByFeature });
+        }, [])
+    );
 
     useEffect(() => {
         if (activeCat) {
@@ -65,7 +71,7 @@ const HomeScreen = ({ navigation, route }: TabsStackScreenProps<"Home">) => {
                     <HeaderComponent gotoCartScreen={gotoCartScreen} />
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}
                         style={{ backgroundColor: "#efg" }}>
-                        <ImageSlider images={getProductsByFeature.map(product => product.images[0])} />
+                        <ImageSlider images={sliderImage} />
                     </ScrollView>
                     <View style={{ backgroundColor: "yellow", flex: 1 }}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}
