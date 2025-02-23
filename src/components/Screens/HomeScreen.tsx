@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
 
     const handleOutsideClick = () => {
         if (isViewVisible) {
-            setIsViewVisible(true);
+            setIsViewVisible(false);
         }
     };
 
