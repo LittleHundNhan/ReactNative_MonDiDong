@@ -34,7 +34,7 @@ export const fetchCategories = async ({ setGetCategory }: ICatProps) => {
 };
 export const fetchProductsByCatID = async ({setGetProductsByCatID, catID}: IProdByCatProps) =>{
     try{
-        const response: FetchProductsParam = await axios.get(`http://10.0.2.2:9000/product/getProductById/${catID}`);
+        const response: FetchProductsParam = await axios.get(`http://10.0.2.2:9000/product/getProductByCateID/${catID}`);
         console.log("API Response:", response.data);
         if (Array.isArray(response.data)) {
             const fixedData = response.data.map(item => ({

@@ -4,16 +4,16 @@ import { AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-i
 import { GoBack } from './GoBackButton'
 
 interface IHeaderParams {
-    goToPrevios?: () => void;
+    goToPrevious?: () => void;
     search?: () => void;
     cartLength?: number;
     gotoCartScreen?: () => void;
 }
-const HeaderComponent = ({ goToPrevios, search, cartLength, gotoCartScreen }: IHeaderParams) => {
+const HeaderComponent = ({ goToPrevious, search, cartLength, gotoCartScreen }: IHeaderParams) => {
     const [searchInput, setSearchInput] = useState("");
     return (
         <View style={{ backgroundColor: "#000", padding: 10, flexDirection: "row", alignItems: "center" }}>
-            <GoBack onPress={goToPrevios} />
+            <GoBack onPress={goToPrevious} />
             <Pressable style={{
                 flexDirection: "row", alignItems: "center", marginHorizontal: 7,
                 gap: 10, backgroundColor: "white", borderRadius: 10, height: 38, flex: 1

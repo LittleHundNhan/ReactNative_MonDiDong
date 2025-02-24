@@ -97,58 +97,60 @@ const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
                                 />
                             ))}
                         </ScrollView>
-                    </View>
-
-                    {/* Danh Sách Sản Phẩm */}
-                    {isViewVisible && (
-                        <>
-                            <View style={{
-                                backgroundColor: "pink", flexDirection: "row", justifyContent: "space-between",
-                                marginTop: 10
-                            }}>
-                                <Text style={{ fontSize: 14, fontWeight: "bold", padding: 10 }}>
-                                    {activeCat ? "Products from Selected Category" : "Please select a category"}
-                                </Text>
-                                <Pressable>
-                                    <Text style={{ fontSize: 11, fontWeight: "bold", padding: 10 }}>
-                                        See ALL
+                        {/* Danh Sách Sản Phẩm */}
+                        {isViewVisible && (
+                            <>
+                                <View style={{
+                                    backgroundColor: "pink", flexDirection: "row", justifyContent: "space-between",
+                                    marginTop: 10
+                                }}>
+                                    <Text style={{ fontSize: 14, fontWeight: "bold", padding: 10 }}>
+                                        {activeCat ? "Products from Selected Category" : "Please select a category"}
                                     </Text>
-                                </Pressable>
-                            </View>
-                          
-                            <View style={{
-                                backgroundColor: "#fff", borderWidth: 7, borderColor: "green", flexDirection: "row",
-                                justifyContent: "space-between", alignItems: "center", flexWrap: "wrap"
-                            }}>
-                                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                                    {
-                                        getProductsByFeature?.length > 0 ? (
-                                            getProductsByFeature.map((item, index) => (
-                                                <CategoryCard
-                                                    key={index}
-                                                    item={{ "name": item.name, "images": item.images, "_id": item._id }}
-                                                    catStyleProps={{
-                                                        "height": 100,
-                                                        "width": 100,
-                                                        "radius": 10,
-                                                        "resizeMode": "contain"
-                                                    }}
-                                                    catProps={{
-                                                        "onPress": () => Alert.alert(item.name)
-                                                    }}
-                                                />
-                                            ))
-                                        ) : (
-                                            <Text style={{ padding: 10 }}>Không có sản phẩm nào</Text>
-                                        )
-                                    }
-                                </ScrollView>
-                            </View>
-                        </>
-                    )}
+                                    <Pressable>
+                                        <Text style={{ fontSize: 11, fontWeight: "bold", padding: 10 }}>
+                                            See ALL
+                                        </Text>
+                                    </Pressable>
+                                </View>
+
+                                <View style={{
+                                    backgroundColor: "#fff", borderWidth: 7, borderColor: "green", flexDirection: "row",
+                                    justifyContent: "space-between", alignItems: "center", flexWrap: "wrap"
+                                }}>
+                                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                        {
+                                            getProductsByCatID?.length > 0 ? (
+                                                getProductsByCatID.map((item, index) => (
+                                                    <CategoryCard
+                                                        key={index}
+                                                        item={{ "name": item.name, "images": item.images, "_id": item._id }}
+                                                        catStyleProps={{
+                                                            "height": 100,
+                                                            "width": 100,
+                                                            "radius": 10,
+                                                            "resizeMode": "contain"
+                                                        }}
+                                                        catProps={{
+                                                            "onPress": () => navigation.navigate("productDetails", item)
+                                                        }}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <Text style={{ padding: 10 }}>Không có sản phẩm nào</Text>
+                                            )
+                                        }
+                                        
+                                    </ScrollView>
+                                </View>
+                            </>
+                        
+                        )}
+                    </View>
                 </ScrollView>
             </TouchableWithoutFeedback>
         </SafeAreaView>
+        
     );
 }
 
