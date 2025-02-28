@@ -12,10 +12,14 @@ export interface ProductListParams {
     isFeatured?: boolean
     category?: string
 }
+
 export interface CartItem {
+
     cart: ProductListParams[]
 }
+
 export interface CartState {
+
     cart: {
         cart: ProductListParams[]
         length: number

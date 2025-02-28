@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import React from 'react';
-import { TabsStackScreenProps } from '../Navigation/TabsNavigation';
+import { TabsStackScreenProps } from '../components/Navigation/TabsNavigation';
 
 type Props = {}
 const ProfileScreen = ({ navigation }: TabsStackScreenProps<'Profile'>) => {

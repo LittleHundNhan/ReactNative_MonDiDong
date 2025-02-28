@@ -1,13 +1,13 @@
 import { View, Text, ViewToken } from "react-native";
 import React, { useState } from "react";
-import { RootStackScreenProps } from "../Navigation/RootNavigator";
-import { OnboardingPrograms } from "../../TypesCheck/OnboardingTypesCheck";
-import { OnboardingData } from "../../Data/EcommerceAppData";
-import OnboardingButton from "../onboardingComponents/OnboardingButton";
+import { RootStackScreenProps } from "../components/Navigation/RootNavigator";
+import { OnboardingPrograms } from "../TypesCheck/OnboardingTypesCheck";
+import { OnboardingData } from "../Data/EcommerceAppData";
+import OnboardingButton from "../components/onboardingComponents/OnboardingButton";
 import Animated, { useAnimatedRef, useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
-import OnboardingItems from "../onboardingComponents/OnboardingItems";
+import OnboardingItems from "../components/onboardingComponents/OnboardingItems";
 import { FlatList } from "react-native-reanimated/lib/typescript/Animated";
-import OnboardingPagination from "../onboardingComponents/OnboardingPagination";
+import OnboardingPagination from "../components/onboardingComponents/OnboardingPagination";
 type Props = {}
 const OnboardingScreen = ({ navigation, route }: RootStackScreenProps<"OnboardingScreen">) => {
     const [onboardingItems, setOnboardingItems] = useState<OnboardingPrograms[]>(OnboardingData)

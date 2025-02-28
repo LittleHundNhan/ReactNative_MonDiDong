@@ -4,6 +4,7 @@ import { AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-i
 import { GoBack } from './GoBackButton'
 
 interface IHeaderParams {
+    pageTitle?: string;
     goToPrevious?: () => void;
     search?: () => void;
     cartLength?: number;

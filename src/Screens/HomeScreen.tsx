@@ -2,13 +2,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import HeaderComponent from '../HeaderComponent';
+import HeaderComponent from '../components/HeaderComponent';
 import { CategoryCard } from './CategoryCard';
 import ImageSlider from './ImageSlider';
 import { fetchCategories, fetchProductsByCatID, fetchProductByFeature } from '../Middleware/HomeMiddleware';
-import { TabsStackScreenProps } from '../Navigation/TabsNavigation';
+import { TabsStackScreenProps } from '../components/Navigation/TabsNavigation';
 import { ProductListParams } from '../TypesCheck/HomeProps';
-import DisplayMessage from '../DisplayMessage';
+import DisplayMessage from '../components/DisplayMessage';
 import { useSelector } from 'react-redux';
 import { CartState } from '../TypesCheck/productCartTypes';
 

@@ -1,7 +1,7 @@
 import { View, Text, useWindowDimensions, StyleSheet } from "react-native";
 import React from "react";
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
-import { OnboardingItemsObj } from "../TypesCheck/OnboardingTypesCheck";
+import { OnboardingItemsObj } from "../../TypesCheck/OnboardingTypesCheck";
 import LottieView from "lottie-react-native";
 import { transform } from "@babel/core";
 type Props = {}

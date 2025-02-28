@@ -1,6 +1,6 @@
 import { View, Text, useWindowDimensions, StyleSheet } from 'react-native';
 import React from 'react';
-import { onboardingDotParams } from '../TypesCheck/OnboardingTypesCheck';
+import { onboardingDotParams } from '../../TypesCheck/OnboardingTypesCheck';
 import Animated, { Extrapolation, interpolate, interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
 import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductListParams, CartItem, CartState } from '../TypesCheck/productCartTypes';
+import { ProductListParams, CartItem, CartState } from '../../TypesCheck/productCartTypes';
 
 export const CartSlide = createSlice({
     name: 'cart',

@@ -1,6 +1,6 @@
 import { View, Text, useWindowDimensions, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import React from 'react';
-import { onboardingButtonParams } from '../TypesCheck/OnboardingTypesCheck';
+import { onboardingButtonParams } from '../../TypesCheck/OnboardingTypesCheck';
 import Animated, { interpolateColor, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
