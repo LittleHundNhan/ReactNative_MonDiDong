@@ -1,6 +1,6 @@
 import { View, Text, ViewToken } from "react-native";
 import React, { useState } from "react";
-import { RootStackScreenProps } from "../components/Navigation/RootNavigator";
+import { RootStackScreenProps } from "../Navigation/RootNavigator";
 import { OnboardingPrograms } from "../TypesCheck/OnboardingTypesCheck";
 import { OnboardingData } from "../Data/EcommerceAppData";
 import OnboardingButton from "../components/onboardingComponents/OnboardingButton";

@@ -6,7 +6,7 @@ import {
 import { UserDataForm } from "../components/LoginRegisterComponents/UserDataForm";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RootStackScreenProps } from "../components/Navigation/RootNavigator";
+import { RootStackScreenProps } from "../Navigation/RootNavigator";
 import  HeaderComponent  from "../components/HeaderComponent";
 import { UserType } from "../components/LoginRegisterComponents/UserContext";
 
@@ -102,7 +102,8 @@ const UserAuth = ({ navigation, route }: RootStackScreenProps<"UserLogin">) => {
         >
             <HeaderComponent
                 pageTitle={screenTitle}
-                goToPrevious={() => navigation.goBack()}
+                goToPrevious={() => navigation.goBack()
+                }
             />
             <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
                 <KeyboardAvoidingView

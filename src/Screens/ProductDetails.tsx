@@ -3,13 +3,13 @@ import {
     ImageBackground
 } from 'react-native';
 import React from 'react';
-import { RootStackScreenProps, RootStackParams } from '../components/Navigation/RootNavigator';
+import { RootStackScreenProps, RootStackParams } from '../Navigation/RootNavigator';
 import HeaderComponent from '../components/HeaderComponent';
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartState } from '../TypesCheck/productCartTypes';
 import { ProductListParams } from '../TypesCheck/HomeProps';
-import { addToCart } from '../components/redux/CartReducer';
+import { addToCart } from '../redux/CartReducer';
 import DisplayMessage from '../components/DisplayMessage';
 const { width, height } = Dimensions.get("window");
 

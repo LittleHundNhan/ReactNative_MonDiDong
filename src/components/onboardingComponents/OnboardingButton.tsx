@@ -4,7 +4,7 @@ import { onboardingButtonParams } from '../../TypesCheck/OnboardingTypesCheck';
 import Animated, { interpolateColor, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParams } from '../Navigation/RootNavigator';
+import { RootStackParams } from '../../Navigation/RootNavigator';
 
 type Props = {}
 

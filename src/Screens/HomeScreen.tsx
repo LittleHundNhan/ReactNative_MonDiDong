@@ -5,12 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import HeaderComponent from '../components/HeaderComponent';
 import { CategoryCard } from './CategoryCard';
 import ImageSlider from './ImageSlider';
-import { fetchCategories, fetchProductsByCatID, fetchProductByFeature } from '../Middleware/HomeMiddleware';
-import { TabsStackScreenProps } from '../components/Navigation/TabsNavigation';
+import { fetchCategories, fetchProductsByCatID, fetchProductByFeature, fetchTrendingProducts } from '../Middleware/HomeMiddleware';
+import { TabsStackScreenProps } from '../Navigation/TabsNavigation';
 import { ProductListParams } from '../TypesCheck/HomeProps';
 import DisplayMessage from '../components/DisplayMessage';
 import { useSelector } from 'react-redux';
 import { CartState } from '../TypesCheck/productCartTypes';
+import { ProductCard } from './ProductCard';
+
+const productWidth = 100; // Định nghĩa kích thước sản phẩm
+const bgImg = "https://via.placeholder.com/100"; // Ảnh nền mặc định
+
 
 const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
     const cart = useSelector((state: CartState) => state.cart.cart);
@@ -87,10 +92,18 @@ const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
         setIsViewVisible(true);
     };
 
+    const [trendingProducts, setTrendingProducts] = useState<ProductListParams[]>([])
+
+    useEffect(() => {
+        fetchCategories({ setGetCategory });
+        fetchTrendingProducts({ setTrendingProducts });
+
+    }, []);
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-           {displayMessage && <DisplayMessage message = {message} visible={()=> setDisplayMessage(!displayMessage)}/>}
-           <HeaderComponent gotoCartScreen={gotoCartScreen} cartLength={cart.length} goToPrevious={goToPreviousScreen} />
+            {displayMessage && <DisplayMessage message={message} visible={() => setDisplayMessage(!displayMessage)} />}
+            <HeaderComponent gotoCartScreen={gotoCartScreen} cartLength={cart.length} goToPrevious={goToPreviousScreen} />
             <TouchableWithoutFeedback onPress={handleOutsideClick}>
                 <ScrollView>
 
@@ -167,10 +180,41 @@ const HomeScreen = ({ navigation }: TabsStackScreenProps<"Home">) => {
 
                                     </ScrollView>
                                 </View>
+
                             </>
 
                         )}
-                    </View>
+                        
+
+                        </View>
+                        {/* Trending Deals Section */}
+                        <View style={{ backgroundColor: "purple", flexDirection: "row", justifyContent: "space-around", marginTop: 10 }}>
+                            <Text style={{ color: "yellow", fontSize: 14, fontWeight: "bold", padding: 10 }}>
+                                Trending Deals of the Week
+                            </Text>
+                        </View>
+
+                        <View style={{ backgroundColor: "#fff", borderWidth: 7, borderColor: "green", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+                            {trendingProducts.map((item, index) => (
+                                <ProductCard
+                                    key={index}
+                                    item={{
+                                        _id: item?._id || index.toString(),
+                                        name: item?.name || "No Name",
+                                        images: item?.images || [""],
+                                        price: item?.price || 0,
+                                        oldPrice: item?.oldPrice || item?.price || 0,
+                                        description: item?.description || "No description available",
+                                        quantity: item?.quantity ?? 1,
+                                        inStock: item?.inStock ?? true,
+                                        isFeatured: Boolean(item?.isFeatured),
+                                        category: item?.category?.toString() || "Uncategorized"
+                                    }}
+                                    pStyleProps={{ "resizeMode": "contain", "width": productWidth, height: 90, marginBottom: 5 }}
+                                    productProps={{ "imageBg": bgImg }}
+                                />
+                            ))}
+                            </View>
                 </ScrollView>
             </TouchableWithoutFeedback>
         </SafeAreaView>

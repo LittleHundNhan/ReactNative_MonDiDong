@@ -1,12 +1,12 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { RootStackScreenProps } from './RootNavigator';
-import HomeScreen from '../../Screens/HomeScreen';
-import CartScreen from '../../Screens/CartScreen';
-import PaymentScreen from '../../Screens/PaymentScreen';
-import ProfileScreen from '../../Screens/ProfileScreen';
+import HomeScreen from '../Screens/HomeScreen';
+import CartScreen from '../Screens/CartScreen';
+import PaymentScreen from '../Screens/PaymentScreen';
+import ProfileScreen from '../Screens/ProfileScreen';
 import { Entypo, AntDesign, Ionicons } from '@expo/vector-icons';
-import OrderScreen from '../../Screens/OrderScreen';
+import OrderScreen from '../Screens/OrderScreen';
 
 export type TabsStackParams = {
     Home: undefined;

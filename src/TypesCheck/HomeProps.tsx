@@ -8,6 +8,8 @@ export interface ProductListParams {
     color?:string;
     size?:string;
     description?:string;
+    isFeatured?:boolean;
+    category:string;
     quantity:number;
 }
 

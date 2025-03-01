@@ -11,6 +11,9 @@ interface IProdByCatProps {
 interface IProdByFeatureProps {
     setGetProductsByFeature: React.Dispatch<React.SetStateAction<ProductListParams[]>>
 }
+interface ITrendingProductProps {
+    setTrendingProducts: React.Dispatch<React.SetStateAction<ProductListParams[]>>
+}
 export const fetchCategories = async ({ setGetCategory }: ICatProps) => {
     try {
         const response = await axios.get("http://10.0.2.2:9000/category/getAllCategories");
@@ -28,12 +31,12 @@ export const fetchCategories = async ({ setGetCategory }: ICatProps) => {
             setGetCategory([]);
         }
     } catch (error) {
-        console.log("axios get error ",error);
-    setGetCategory([]);
+        console.log("axios get error ", error);
+        setGetCategory([]);
     }
 };
-export const fetchProductsByCatID = async ({setGetProductsByCatID, catID}: IProdByCatProps) =>{
-    try{
+export const fetchProductsByCatID = async ({ setGetProductsByCatID, catID }: IProdByCatProps) => {
+    try {
         const response: FetchProductsParam = await axios.get(`http://10.0.2.2:9000/product/getProductByCateID/${catID}`);
         console.log("API Response:", response.data);
         if (Array.isArray(response.data)) {
@@ -73,5 +76,26 @@ export const fetchProductByFeature = async ({ setGetProductsByFeature }: IProdBy
     } catch (error) {
         console.log("axios get error ", error);
         setGetProductsByFeature([]);
+    }
+};
+export const fetchTrendingProducts = async ({ setTrendingProducts }: ITrendingProductProps) => {
+    try {
+        const response: FetchProductsParam = await axios.get("http://10.0.2.2:9000/product/getTrendingProducts");
+        console.log("API Response:", response.data);
+        if (Array.isArray(response.data)) {
+            const fixedData = response.data.map(item => ({
+                ...item,
+                images: item.images.map((img: string) =>
+                    img.replace("http://localhost", "http://10.0.2.2")
+                )
+            }));
+            setTrendingProducts(fixedData);
+        } else {
+            console.warn("fetchCategories: API data is not an array", response.data);
+            setTrendingProducts([]);
+        }
+    } catch (error) {
+        console.log("axios get error ", error);
+        setTrendingProducts([]);
     }
 };

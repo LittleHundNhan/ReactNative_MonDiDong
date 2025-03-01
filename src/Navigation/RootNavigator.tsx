@@ -1,11 +1,11 @@
 import React from "react"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
-import OnboardingScreen from "../../Screens/OnboardingScreens"
+import OnboardingScreen from "../Screens/OnboardingScreens"
 import { NavigatorScreenParams } from "@react-navigation/native";
 import TabsNavigator, { TabsStackParams } from "./TabsNavigation";
-import ProductDetails from "../../Screens/ProductDetails";
-import CartScreen from "../../Screens/CartScreen";
-import UserAuth from "../../Screens/LoginRegisterScreen";
+import ProductDetails from "../Screens/ProductDetails";
+import CartScreen from "../Screens/CartScreen";
+import UserAuth from "../Screens/LoginRegisterScreen";
 export type RootStackParams = {
     OnboardingScreen: undefined,
     TabsStack: NavigatorScreenParams<TabsStackParams>,

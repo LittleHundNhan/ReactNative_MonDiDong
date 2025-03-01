@@ -11,7 +11,7 @@ import {
     ImageBackground,
     Image,
 } from "react-native";
-import { RootStackScreenProps } from "../components/Navigation/RootNavigator";
+import { RootStackScreenProps } from "../Navigation/RootNavigator";
 import {
     AntDesign,
     MaterialCommunityIcons,
@@ -25,8 +25,8 @@ import {
     decreaseQuantity,
     increaseQuantity,
     removeFromCart,
-} from "../components/redux/CartReducer";
-import { TabsStackScreenProps } from "../components/Navigation/TabsNavigation";
+} from "../redux/CartReducer";
+import { TabsStackScreenProps } from "../Navigation/TabsNavigation";
 import { CartState, ProductListParams } from "../TypesCheck/productCartTypes";
 import DisplayMessage from "../components/DisplayMessage";
 import  HeaderComponent  from "../components/HeaderComponent";

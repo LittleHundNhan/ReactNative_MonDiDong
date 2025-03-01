@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { TabsStackScreenProps } from "../components/Navigation/TabsNavigation";
+import { TabsStackScreenProps } from "../Navigation/TabsNavigation";
 
 const OrderScreen = ({ navigation }: TabsStackScreenProps<"Order">) => {
   const [fullName, setFullName] = useState("");
