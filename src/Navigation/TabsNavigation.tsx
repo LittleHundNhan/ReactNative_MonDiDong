@@ -20,7 +20,7 @@ export type TabsStackParams = {
         size?: string;
         quantity?: number
     },
-    Payment: undefined;
+    Payment: {address: string};
     Profile: undefined;
     Order: undefined;
 };
@@ -51,8 +51,8 @@ const TabsNavigation = () => {
                     )
                 }}
             />
-            <TabsStack.Screen
-                name="Payment" component={PaymentScreen} options={{
+             <TabsStack.Screen
+                name="Order" component={OrderScreen} options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => focused ? (
                         <Ionicons name="copy" size={24} color="#00970a" />
@@ -62,25 +62,16 @@ const TabsNavigation = () => {
                 }}
             />
             <TabsStack.Screen
-                name="Profile" component={ProfileScreen} options={{
+                name="Payment" component={PaymentScreen} options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => focused ? (
-                        <Ionicons name="person" size={24} color="#00970a" />
+                        <Ionicons name="card" size={24} color="#00970a" />
                     ) : (
-                        <Ionicons name="person-outline" size={24} color="#000" />
+                        <Ionicons name="card" size={24} color="#000" />
                     )
                 }}
             />
-            <TabsStack.Screen
-                name="Order" component={OrderScreen} options={{
-                    headerShown: false,
-                    tabBarIcon: ({ focused }) => focused ? (
-                        <Ionicons name="person" size={24} color="#00970a" />
-                    ) : (
-                        <Ionicons name="person-outline" size={24} color="#000" />
-                    )
-                }}
-            />
+           
         </TabsStack.Navigator>
     )
 }

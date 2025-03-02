@@ -8,18 +8,12 @@ import {
     Pressable,
     Alert,
     Dimensions,
-    ImageBackground,
     Image,
+    StyleSheet,
 } from "react-native";
 import { RootStackScreenProps } from "../Navigation/RootNavigator";
-import {
-    AntDesign,
-    MaterialCommunityIcons,
-    Ionicons,
-    Feather,
-} from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
     addToCart,
     decreaseQuantity,
@@ -29,67 +23,54 @@ import {
 import { TabsStackScreenProps } from "../Navigation/TabsNavigation";
 import { CartState, ProductListParams } from "../TypesCheck/productCartTypes";
 import DisplayMessage from "../components/DisplayMessage";
-import  HeaderComponent  from "../components/HeaderComponent";
+import HeaderComponent from "../components/HeaderComponent";
 import { UserType } from "../components/LoginRegisterComponents/UserContext";
+
 const screenWidth = Dimensions.get("window").width;
 
 const CartScreen = ({ navigation, route }: TabsStackScreenProps<"Cart">) => {
-
     const cart = useSelector((state: CartState) => state.cart.cart);
     const dispatch = useDispatch();
-    const [addedToCart, setAddedToCart] = useState(false);
     const [message, setMessage] = useState("");
     const [displayMessage, setDisplayMessage] = useState<boolean>(false);
-    const gotoPreviousScreen = () => {
-        navigation.goBack();
-    };
-    const gotoCartScreen = () => {
-        navigation.navigate("TabsStack", { screen: "Cart" });
-    };
 
-    const { getUserId, setGetUserId } = useContext(UserType);
+    const gotoPreviousScreen = () => navigation.goBack();
+    const gotoCartScreen = () => navigation.navigate("TabsStack", { screen: "Cart" });
+
+    const { getUserId } = useContext(UserType);
+    
     const proceed = () => {
         if (getUserId === "") {
             navigation.navigate("UserLogin", { screenTitle: "User Authentication" });
-        } else {
-            if (cart.length === 0) {
-                navigation.navigate("TabsStack", { screen: "Home" });
-            }
-            else {            }
+        } else if (cart.length === 0) {
+            navigation.navigate("TabsStack", { screen: "Home" });
         }
     };
 
     const decreaseItem = (item: ProductListParams) => {
         if (item.quantity > 1) {
             dispatch(decreaseQuantity(item));
-            setMessage("Product Quantity Updated Successfully");
         } else {
-            deleteItem(item); // Nếu số lượng <= 1, xóa sản phẩm
+            deleteItem(item);
         }
-        setDisplayMessage(true);
-        setTimeout(() => {
-            setDisplayMessage(false);
-        }, 3000);
+        setTimeout(() => setDisplayMessage(false), 3000);
     };
+
     const deleteItem = (item: ProductListParams) => {
-        dispatch(removeFromCart(item._id)); // Chỉ truyền ID của sản phẩm
+        dispatch(removeFromCart(item._id));
         setMessage("Product Removed Successfully");
         setDisplayMessage(true);
-        setTimeout(() => {
-            setDisplayMessage(false);
-        }, 3000);
+        setTimeout(() => setDisplayMessage(false), 3000);
     };
+
     const increaceQuantity = (item: ProductListParams) => {
-        dispatch(increaseQuantity(item)); // Gọi action để tăng số lượng
-        setMessage("Product Quantity Updated Successfully");
-        setDisplayMessage(true);
-        setTimeout(() => {
-            setDisplayMessage(false);
-        }, 3000);
+        dispatch(increaseQuantity(item));
+        setTimeout(() => setDisplayMessage(false), 3000);
     };
+
     useEffect(() => {
         if (cart.length === 0) {
-            setMessage("Your cart is Empty,Please Add product to continue!");
+            setMessage("Your cart is Empty, Please Add product to continue!");
             setDisplayMessage(true);
             setTimeout(() => {
                 setDisplayMessage(false);
@@ -97,192 +78,246 @@ const CartScreen = ({ navigation, route }: TabsStackScreenProps<"Cart">) => {
             }, 3000);
         }
     }, [cart.length]);
+
     const total = cart
         ?.map((item) => item.price * item.quantity)
         .reduce((curr, prev) => curr + prev, 0);
-    return (
-        <SafeAreaView
-            style={{
-                paddingTop: Platform.OS === "android" ? 40 : 0,
-                flex: 1,
-                backgroundColor: "#000",
-            }}
-        >
-            {displayMessage && <DisplayMessage message={message} />}
 
-            <HeaderComponent
-                gotoCartScreen={gotoCartScreen}
-                cartLength={cart.length}
-                goToPrevious={gotoPreviousScreen}
-            />
-
-            <ScrollView
-                style={{ backgroundColor: "#fff", flex: 1 }}
-                showsVerticalScrollIndicator={false}
-            >
-                <View style={{ marginHorizontal: 10 }}>
-                    {cart?.map((item, index) => (
-                        <View
-                            style={{
-                                backgroundColor: "#fff",
-                                marginVertical: 10,
-                                borderColor: "#F0F0F0",
-                                borderWidth: 2,
-                                borderLeftWidth: 0,
-                                borderRightWidth: 0,
-                                borderTopWidth: 0,
-                            }}
-                            key={index}
-                        >
-                            <Pressable
-                                style={{
-                                    marginVertical: 10,
-                                    flexDirection: "row",
-                                    // justifyContent: "space-between",
-                                }}
-                            >
-                                <View>
-                                    <Image
-                                        style={{ width: 140, height: 140, resizeMode: "contain" }}
-                                        source={{ uri: item?.images[0] }}
-                                    />
-                                </View>
-                                <View style={{ marginLeft: 10 }}>
-                                    <Text numberOfLines={3} style={{ fontSize: 16, width: 250, marginTop: 10 }}>
-                                        {item.name}
-                                    </Text>
-                                    <Text
-                                        style={{ fontSize: 16, marginTop: 6, fontWeight: "bold" }}
-                                    >
-                                        Price: {item.price.toLocaleString("vi-VN")}$
-                                    </Text>
-                                </View>
-                            </Pressable>
-                            <Pressable
-                                style={{
-                                    marginTop: 15,
-                                    marginBottom: 10,
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: 10,
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        marginVertical: 10,
-                                        paddingVertical: 5,
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        borderRadius: 5,
-                                    }}
-                                >
-                                    {item?.quantity > 1 ? (
-                                        <Pressable
-                                            onPress={() => decreaseItem(item)}
-                                            style={{
-                                                backgroundColor: "#D8D8D8",
-                                                padding: 7,
-                                                justifyContent: "center",
-                                            }}
-                                        >
-                                            <AntDesign
-                                                name="minus"
-                                                size={22}
-                                                color="black"
-                                            />
+        return (
+            <SafeAreaView style={styles.container}>
+                {displayMessage && <DisplayMessage message={message} />}
+        
+                <HeaderComponent
+                    gotoCartScreen={gotoCartScreen}
+                    cartLength={cart.length}
+                    goToPrevious={gotoPreviousScreen}
+                />
+        
+                {cart.length === 0 ? (
+                    <View style={styles.emptyCartContainer}>
+                        <Image 
+                            source={{ uri: "https://cdn-icons-png.flaticon.com/512/2038/2038854.png" }} 
+                            style={styles.emptyCartImage} 
+                        />
+                        <Text style={styles.emptyCartText}>Giỏ hàng của bạn đang trống</Text>
+                        <Pressable onPress={() => navigation.navigate("Home")} style={styles.emptyCartButton}>
+                            <Text style={styles.emptyCartButtonText}>Mua sắm ngay</Text>
+                        </Pressable>
+                    </View>
+                ) : (
+                    <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+                        <View style={styles.cartContainer}>
+                            {cart?.map((item, index) => (
+                                <View style={styles.cartItem} key={index}>
+                                    <Pressable style={styles.productRow}>
+                                        <Image style={styles.productImage} source={{ uri: item?.images[0] }} />
+                                        <View style={styles.productDetails}>
+                                            <Text numberOfLines={3} style={styles.productName}>{item.name}</Text>
+                                            <Text style={styles.productPrice}>Price: {item.price.toLocaleString("vi-VN")}$</Text>
+                                        </View>
+                                    </Pressable>
+        
+                                    <Pressable style={styles.quantityRow}>
+                                        {item?.quantity > 1 ? (
+                                            <Pressable onPress={() => decreaseItem(item)} style={styles.iconButton}>
+                                                <AntDesign name="minus" size={22} color="black" />
+                                            </Pressable>
+                                        ) : (
+                                            <Pressable onPress={() => deleteItem(item)} style={styles.iconButton}>
+                                                <AntDesign name="delete" size={24} color="black" />
+                                            </Pressable>
+                                        )}
+                                        <Text style={styles.quantityText}>{item?.quantity}</Text>
+                                        <Pressable onPress={() => increaceQuantity(item)} style={styles.iconButton}>
+                                            <Feather name="plus" size={24} color="black" />
                                         </Pressable>
-                                    ) : (
-                                        <Pressable
-                                            onPress={() => deleteItem(item)}
-                                            style={{
-                                                backgroundColor: "#D8D8D8",
-                                                padding: 7,
-                                                justifyContent: "center",
-                                            }}
-                                        >
-                                            <AntDesign
-                                                name="delete"
-                                                size={24}
-                                                color="black"
-                                            />
+                                        <Pressable onPress={() => deleteItem(item)} style={styles.deleteButton}>
+                                            <Text>Delete</Text>
                                         </Pressable>
-                                    )}
-                                    <Pressable
-                                        style={{
-                                            backgroundColor: "#fff",
-                                            paddingHorizontal: 10,
-                                            paddingVertical: 6,
-                                        }}
-                                    >
-                                        <Text>{item?.quantity}</Text>
-                                    </Pressable>
-                                    <Pressable
-                                        onPress={() => increaceQuantity(item)}
-                                        style={{
-                                            backgroundColor: "#D8D8D8",
-                                            padding: 7,
-
-                                        }}
-                                    >
-                                        <Feather
-                                            name="plus"
-                                            size={24}
-                                            color="black"
-                                        />
-                                    </Pressable>
-                                    <Pressable
-                                        onPress={() => deleteItem(item)}
-                                        style={{
-                                            backgroundColor: "#D8D8D8",
-                                            padding: 7,
-                                            paddingHorizontal: 18,
-                                            paddingVertical: 10,
-                                            borderColor: "#C0C0C0",
-                                            marginLeft: 10,
-                                        }}
-                                    >
-                                        <Text>Delete</Text>
-                                    </Pressable>
-                                    <View style={{ marginLeft: 120 }}>
-                                        <Text
-                                            style={{ fontSize: 20, marginTop: 6, fontWeight: "bold", color: "green" }}
-                                        >
+                                        <Text style={styles.totalPrice}>
                                             {(item.price * item.quantity).toLocaleString("vi-VN")}$
                                         </Text>
-                                    </View>
+                                    </Pressable>
                                 </View>
+                            ))}
+                        </View>
+        
+                        <View style={styles.totalContainer}>
+                            <View style={styles.totalRow}>
+                                <Text style={styles.totalLabel}>Total:</Text>
+                                <Text style={styles.totalAmount}>{total.toLocaleString("vi-VN")}$</Text>
+                            </View>
+                            <Pressable onPress={proceed} style={styles.checkoutButton}>
+                                <Text style={styles.checkoutText}>Đặt hàng ({cart.length})</Text>
                             </Pressable>
                         </View>
-                    ))}
-                </View>
-                <View style={{ backgroundColor: "#eee", borderColor: "#fff", alignContent: "center" }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={{ marginLeft: 10, fontSize: 28, fontWeight: "400", color: "blue" }}>Total:</Text>
-                        <Text style={{ fontSize: 28, fontWeight: "bold", color: "blue" }}>
-                            {total.toLocaleString("vi-VN")}$
-                        </Text>
-                    </View>
-                    <Pressable
-                        onPress={proceed}
-                            
-                        style={{
-                            backgroundColor: "#FFC72C",
-                            padding: 10,
-                            borderRadius: 5,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginHorizontal: 10,
-                            marginTop: 10,
-                        }}
-                    >
-                        <Text style={{ fontSize: 28, fontWeight: "bold", color: "purple" }}>Click to buy ({cart.length})</Text>
-                    </Pressable>
-                </View>
-            </ScrollView >
-        </SafeAreaView >
-    );
+                    </ScrollView>
+                )}
+            </SafeAreaView>
+        );
+        
 };
+
+const styles = StyleSheet.create({
+    container: {
+        paddingTop: Platform.OS === "android" ? 40 : 0,
+        flex: 1,
+        backgroundColor: "#F5F5F5", // Màu nền sáng hơn, dễ nhìn hơn
+    },
+    scrollContainer: {
+        backgroundColor: "#FFF",
+        flex: 1,
+    },
+    cartContainer: {
+        marginHorizontal: 12,
+    },
+    cartItem: {
+        backgroundColor: "#FFF",
+        marginVertical: 12,
+        borderBottomWidth: 2,
+        borderColor: "#E0E0E0",
+        paddingVertical: 10,
+        borderRadius: 8, // Bo góc mềm mại
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3, // Hiệu ứng đổ bóng cho Android
+    },
+    productRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+    },
+    productImage: {
+        width: 130,
+        height: 130,
+        resizeMode: "contain",
+        borderRadius: 8, // Bo góc ảnh
+    },
+    productDetails: {
+        marginLeft: 14,
+        flex: 1,
+    },
+    productName: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: "#333",
+    },
+    productPrice: {
+        fontSize: 18,
+        marginTop: 6,
+        fontWeight: "bold",
+        color: "#FF5722", // Màu cam nổi bật
+    },
+    quantityRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginVertical: 10,
+        paddingHorizontal: 10,
+    },
+    iconButton: {
+        backgroundColor: "#E0E0E0",
+        padding: 8,
+        borderRadius: 5,
+    },
+    quantityText: {
+        backgroundColor: "#FFF",
+        paddingHorizontal: 14,
+        paddingVertical: 6,
+        fontSize: 18,
+        fontWeight: "bold",
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#E0E0E0",
+    },
+    deleteButton: {
+        backgroundColor: "#FF5252",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 6,
+    },
+    deleteButtonText: {
+        color: "#FFF",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    totalContainer: {
+        backgroundColor: "#FFF",
+        padding: 16,
+        borderTopWidth: 2,
+        borderColor: "#E0E0E0",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    totalRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    totalLabel: {
+        fontSize: 24,
+        fontWeight: "600",
+        color: "#333",
+    },
+    totalAmount: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#FF5722",
+    },
+    checkoutButton: {
+        backgroundColor: "#FFC72C",
+        padding: 12,
+        borderRadius: 8,
+        alignItems: "center",
+    },
+    checkoutText: {
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "black", // Màu tím nổi bật
+    },
+    totalPrice: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "green",
+        textAlign: "right",
+        marginTop: 8,
+        marginRight: 10,
+    },
+    emptyCartContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 50,
+    },
+    emptyCartImage: {
+        width: 150,
+        height: 150,
+        marginBottom: 20,
+    },
+    emptyCartText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#333",
+        marginBottom: 20,
+    },
+    emptyCartButton: {
+        backgroundColor: "#FF5722",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+    },
+    emptyCartButtonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#FFF",
+    },
+});
+
 
 export default CartScreen;

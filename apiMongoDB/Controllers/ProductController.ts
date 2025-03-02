@@ -69,3 +69,32 @@ export const getTrendingProducts = async (req: Request, res: Response) => {
         res.status(500).json(`Trending products not found: ${error}`)
     }
 }
+
+export const addRelatedImagesToProduct = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const files = req.files as Express.Multer.File[];
+
+        if (!files || files.length === 0) {
+            res.status(400).json({ message: "No images uploaded" });
+            return
+        }
+
+        const newRelatedImages = files.map((file: Express.Multer.File) => path + file.filename);
+
+        const updatedProduct = await PRODUCTS.findByIdAndUpdate(
+            id,
+            { $push: { related_images: { $each: newRelatedImages } } },
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            res.status(404).json({ message: "Product not found" });
+            return 
+        }
+
+        res.status(200).json({ message: "Related images added successfully", product: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ message: `Failed to add related images: ${error}` });
+    }
+};

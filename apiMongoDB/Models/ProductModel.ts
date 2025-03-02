@@ -8,6 +8,9 @@ const ProductSchema = new Schema({
     images: [{
         type: String, required: true
     }],
+    related_images: [{ 
+        type: String 
+    }], // Thêm danh sách ảnh liên quan
     price: {
         type: Number
     },

@@ -14,6 +14,7 @@ export type RootStackParams = {
     productDetails: {
         _id: string;
         images: [string];
+        related_images?: string[];
         name: string;
         price: number;
         oldPrice?: number;

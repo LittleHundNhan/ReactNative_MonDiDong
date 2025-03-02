@@ -61,23 +61,24 @@ const UserAuth = ({ navigation, route }: RootStackScreenProps<"UserLogin">) => {
     const handleLoginTextchange = (text: string, fieldName: string) => {
         setUserLoginForm({ ...userLoginForm, [fieldName]: text });
     };
-    const SubmitUserLoginForm = () => {
-        axios
-            .post("http://10.106.23.146:9000/user/loginUser", userLoginForm)
-            .then((response) => {
-                console.log(response);
-                const token = response.data.token;
-                AsyncStorage.setItem("authToken", token);
-                Alert.alert(" Login Successfully!");
-                navigation.navigate("TabsStack", { screen: "Order" });
-
-                setUserLoginForm(userLoginParams);
-            })
-            .catch((err) => {
-                Alert.alert("Login Error", err.message);
-                console.log(err);
-            });
+    const SubmitUserLoginForm = async () => {
+        try {
+            const response = await axios.post("http://192.168.171.1:9000/user/loginUser", userLoginForm);
+            
+            const userData = response.data.user; // Lấy thông tin user từ API
+            console.log("User data:", userData);
+    
+            Alert.alert("Login Successfully!");
+            
+            // Chuyển sang ProfileScreen và truyền dữ liệu user
+            navigation.navigate("TabsStack", { screen: "Order" });
+        } catch (err) {
+            Alert.alert("Login Error", "Lỗi đăng nhập");
+            console.log(err);
+        }
     };
+    
+    
 
     useEffect(() => {
         const fetchUser = async () => {

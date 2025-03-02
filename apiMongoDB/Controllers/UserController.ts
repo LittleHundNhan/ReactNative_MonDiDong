@@ -62,17 +62,45 @@ export const userLogin = async (
     const { email, password } = req.body;
     console.log("req.body:", email, password);
     const user = await USERLOG.findOne({ email });
+    
     if (!user) {
-      res.status(401).json({ message: "Email a valid username" });
+      res.status(401).json({ message: "Email không tồn tại" });
       return;
     }
     if (user.password !== password) {
-      res.status(403).json({ message: "Enter a valid password" });
+      res.status(403).json({ message: "Sai mật khẩu" });
+      return;
     }
-    const token = user._id;
-    console.log("user token", token);
-    res.status(200).json({ token });
+    
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      mobileNo: user.mobileNo,
+    });
   } catch (err) {
-    res.status(500).json({ message: { err } });
+    res.status(500).json({ message: "Lỗi server", error: err });
+  }
+};
+
+export const getUserProfile = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const user = await USERLOG.findById(userId);
+    
+    if (!user) {
+      res.status(404).json({ message: "Không tìm thấy người dùng" });
+      return 
+    }
+
+    res.status(200).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      mobileNo: user.mobileNo,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server", error });
   }
 };

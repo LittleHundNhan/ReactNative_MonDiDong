@@ -9,7 +9,7 @@ export interface ProductListParams {
     size?:string;
     description?:string;
     isFeatured?:boolean;
-    category:string;
+    category?:string;
     quantity:number;
 }
 

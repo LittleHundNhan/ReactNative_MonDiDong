@@ -23,8 +23,12 @@ export const fetchCategories = async ({ setGetCategory }: ICatProps) => {
                 ...item,
                 images: item.images.map((img: string) =>
                     img.replace("http://localhost", "http://10.0.2.2")
-                )
+                ),
+                related_images: item.related_images ? item.related_images.map((img: string) =>
+                    img.replace("http://localhost", "http://10.0.2.2")
+                ) : []
             }));
+            
             setGetCategory(fixedData);
         } else {
             console.warn("fetchCategories: API data is not an array", response.data);
@@ -44,8 +48,12 @@ export const fetchProductsByCatID = async ({ setGetProductsByCatID, catID }: IPr
                 ...item,
                 images: item.images.map((img: string) =>
                     img.replace("http://localhost", "http://10.0.2.2")
-                )
+                ),
+                related_images: item.related_images ? item.related_images.map((img: string) =>
+                    img.replace("http://localhost", "http://10.0.2.2")
+                ) : []
             }));
+            
             setGetProductsByCatID(fixedData);
         } else {
             console.warn("FetchProductsByCatID: API data is not an array", response.data);
@@ -66,8 +74,12 @@ export const fetchProductByFeature = async ({ setGetProductsByFeature }: IProdBy
                 ...item,
                 images: item.images.map((img: string) =>
                     img.replace("http://localhost", "http://10.0.2.2")
-                )
+                ),
+                related_images: item.related_images ? item.related_images.map((img: string) =>
+                    img.replace("http://localhost", "http://10.0.2.2")
+                ) : []
             }));
+            
             setGetProductsByFeature(fixedData);
         } else {
             console.warn("fetchProductByFeature: API data is not an array", response.data);
@@ -87,8 +99,12 @@ export const fetchTrendingProducts = async ({ setTrendingProducts }: ITrendingPr
                 ...item,
                 images: item.images.map((img: string) =>
                     img.replace("http://localhost", "http://10.0.2.2")
-                )
+                ),
+                related_images: item.related_images ? item.related_images.map((img: string) =>
+                    img.replace("http://localhost", "http://10.0.2.2")
+                ) : []
             }));
+            
             setTrendingProducts(fixedData);
         } else {
             console.warn("fetchCategories: API data is not an array", response.data);

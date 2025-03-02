@@ -14,24 +14,23 @@ interface IHeaderParams {
 const HeaderComponent = ({ goToPrevious, search, cartLength, gotoCartScreen }: IHeaderParams) => {
     const [searchInput, setSearchInput] = useState("");
 
-    const handleSearch = () => {
+    const handleSearch = (text: string) => {
+        setSearchInput(text);
         if (search) {
-            search(searchInput);
+            search(text);
         }
     };
+    
 
     return (
         <View style={styles.headerContainer}>
             <GoBack onPress={goToPrevious} />
             <Pressable style={styles.searchContainer}>
-                <Pressable style={{ padding: 10 }} onPress={handleSearch}>
-                    <AntDesign name="search1" size={20} color="blue" />
-                </Pressable>
+                <AntDesign name="search1" size={20} color="blue" style={{ padding: 10 }} />
                 <TextInput 
-                    value={searchInput} 
-                    onChangeText={setSearchInput} 
-                    placeholder="Search" 
-                    onSubmitEditing={handleSearch}
+                    value={searchInput}
+                    onChangeText={handleSearch}
+                    placeholder="Search"
                     style={{ flex: 1 }}
                 />
             </Pressable>
