@@ -3,7 +3,6 @@ export interface IProductProps {
         _id: string;
         name: string;
         images: [string];
-        related_images?: string[];
         price: number;
         oldPrice: number;
         description: string;

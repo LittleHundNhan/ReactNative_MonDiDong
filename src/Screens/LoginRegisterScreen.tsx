@@ -63,7 +63,7 @@ const UserAuth = ({ navigation, route }: RootStackScreenProps<"UserLogin">) => {
     };
     const SubmitUserLoginForm = async () => {
         try {
-            const response = await axios.post("http://192.168.171.1:9000/user/loginUser", userLoginForm);
+            const response = await axios.post("http://192.168.1.8:9000/user/loginUser", userLoginForm);
             
             const userData = response.data.user; // Lấy thông tin user từ API
             console.log("User data:", userData);

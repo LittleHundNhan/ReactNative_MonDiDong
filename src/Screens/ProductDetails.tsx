@@ -15,7 +15,7 @@ import DisplayMessage from '../components/DisplayMessage';
 const { width, height } = Dimensions.get("window");
 
 const ProductDetails = ({ navigation, route }: RootStackScreenProps<"productDetails">) => {
-    const { _id, images, related_images, name, price, oldPrice, description, color, size, quantity } = route.params;
+    const { _id, images, related_images, name, price, oldPrice, description, quantity } = route.params;
     const allImages = [...images, ...(Array.isArray(related_images) ? related_images : [])];
     const cart = useSelector((state: CartState) => state.cart.cart);
     const dispatch = useDispatch();
