@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "700",
         color: "#D32F2F",
-        paddingLeft: 16,
         marginTop: 10,
     },
     noProductText: {
